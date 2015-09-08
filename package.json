@@ -1,0 +1,33 @@
+{
+  "name": "playpal",
+  "version": "1.0.0",
+  "description": "A collection of tools to enable a Test Driven Development (TDD) workflow for solving toy problems.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JustinWebb/playpal.git"
+  },
+  "keywords": [
+    "TDD",
+    "algorithms",
+    "toy",
+    "problems",
+    "mocha",
+    "chai",
+    "gulp",
+    "livereload"
+  ],
+  "author": "Justin Webb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JustinWebb/playpal/issues"
+  },
+  "homepage": "https://github.com/JustinWebb/playpal",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-livereload": "^3.8.0"
+  }
+}
