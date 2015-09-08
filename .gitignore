@@ -4,12 +4,13 @@
 node_modules
 
 # Testing support (Yeoman, Generator Test)
-spec
+.bowerrc
 bower_components
-
+bower.json
+index.html
+spec
 
 # User specifics
-.bowerrc
 .DS_Store
 .sublime-project
 .sublime-workspace
