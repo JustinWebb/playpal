@@ -7,6 +7,7 @@ node_modules
 spec
 bower_components
 
+
 # User specifics
 .bowerrc
 .DS_Store
