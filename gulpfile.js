@@ -7,6 +7,34 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 
 
+//-----------------------------------------------------------------------------
+// Helper Methods
+//-----------------------------------------------------------------------------
+
+/**
+ * Retrieve a reference to the JS file for given name. Reference
+ * assumes file exists in a directory of the same name located 
+ * at the project root.
+ * @param  {String} name JS file identifer
+ * @return {String}      path to file from root
+ */
+var getPathToProblem = function (name) {
+  return config.problemDir.concat('/'+ name, '/'+ name +'.js');
+};
+
+/**
+ * Test file name for visibility. File names that have '.' as
+ * the first character are considered hidden.
+ * @param  {String}  dirname name of file or directory
+ * @return {Boolean}         
+ */
+var isNotHiddenFile = function (dirname) {
+  return dirname.charAt(0) != '.';
+};
+
+//-----------------------------------------------------------------------------
+// Tasks
+//-----------------------------------------------------------------------------
 gulp.task('default', ['startup']);
 
 gulp.task('startup', function () {
@@ -20,10 +48,9 @@ gulp.task('startup', function () {
 
   // Watch all toy problem and test scripts
   gulp.watch(devSrc, function (file) {
-    var pd = config.problemDir;
     var activeDir =  path.basename(path.dirname(file.path));
-    var specRunnerHTML = pd.concat('/'+ activeDir, '/index.html');
-    var activeProblem = pd.concat('/'+ activeDir, '/'+ activeDir +'.js');
+    var specRunnerHTML = config.problemDir.concat('/'+ activeDir, '/index.html');
+    var activeProblem = getPathToProblem(activeDir);
 
     // Lint JS files in background. Warnings are output to the 
     // console. Errors are caught by the interpreter upon reload. 
@@ -42,15 +69,11 @@ gulp.task('validate', function (cb) {
   fs.readdir(config.problemDir, function (err, files) {
     if (err) throw err;
 
-    // Set toyProblems by filtering out hidden directory in a
-    // somewhat janky way, then configuring paths to each
-    // remaining directory's source file.
+    // Set toyProblems by filtering out hidden directories and 
+    // configuring the remaining paths as source files.
     files
-      .filter(function (fn) {return fn.charAt(0) != '.';})
-      .forEach(function (fp){
-        var name = '/'+ fp;
-        toyProblems.push(config.problemDir.concat(name, name +'.js'));
-      });
+      .filter(isNotHiddenFile)
+      .forEach(function (fp) {toyProblems.push(getPathToProblem(fp));});
 
     // Lint toyProblems. Warning and Errors output to the
     // console and break the build, requiring 'gulp startup'
